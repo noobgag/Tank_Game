@@ -15,8 +15,9 @@ void ATankAIController::BeginPlay() {
 		UE_LOG(LogTemp, Warning, TEXT("The AI controller is not possessing a tank "));
 	}
 
+
 	if (PlayerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("The tank being controlled by the AI controller is %s"), *(PlayerTank->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("The tank being targeted by the AI controller is %s"), *(PlayerTank->GetName()));
 	}
 
 	else {
@@ -32,7 +33,7 @@ ATank* ATankAIController::GetControlledTank() const{
 
 ATank * ATankAIController::GetPlayerTank() const
 {
-	auto  playerTank = GetWorld()->GetFirstPlayerController();
+	auto  playerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	if (playerTank) {
 		return Cast<ATank>(playerTank);
 	}
