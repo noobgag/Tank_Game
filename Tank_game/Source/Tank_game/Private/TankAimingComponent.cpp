@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -13,27 +14,10 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * Barrel_) {
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * Barrel_) {
 	Barrel = Barrel_;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 
@@ -42,20 +26,29 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 	FVector outLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	
-	if (UGameplayStatics::SuggestProjectileVelocity(					//if the function call succeed then printout the following location
+	bool bHaveAimSolution = (UGameplayStatics::SuggestProjectileVelocity(					//if the function call succeed then printout the following location
 		this,
 		outLaunchVelocity,
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		false,
-		0,
-		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace)
-		) {
+		);
+
+	if (bHaveAimSolution) {
 		auto AimDirection = outLaunchVelocity.GetSafeNormal();
-		
-		UE_LOG(LogTemp, Warning, TEXT("%s is Aiming at %s"), *TankName,*AimDirection.ToString());
+		MoveBarrelTowards(AimDirection);
 	}
 
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
+
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *DeltaRotator.ToString());
+
+	Barrel->Elevate(5); //TODO stop hardcoding the number
 }
