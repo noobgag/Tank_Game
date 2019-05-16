@@ -48,3 +48,7 @@ void ATank::AimAt(FVector HitLocation) {
 	TankAimingComponet->AimAt(HitLocation , LaunchSpeed);
 	
 }
+
+void ATank::Fire() {
+	UE_LOG(LogTemp, Warning, TEXT("Fire in the hole "));
+}
