@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankAimingComponent.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
+
 
 
 // Sets default values
@@ -36,6 +37,12 @@ void ATank::SetBarrelReference(UTankBarrel * Barrel_) {
 	TankAimingComponet->SetBarrelReference(Barrel_);
 
 }
+
+void ATank::SetTurretReference(UTankTurret * Turret_) {
+	TankAimingComponet->SetTurretReference(Turret_);
+
+}
+
 void ATank::AimAt(FVector HitLocation) {
 
 	TankAimingComponet->AimAt(HitLocation , LaunchSpeed);
