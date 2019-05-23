@@ -26,12 +26,12 @@ private:
 	 bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection)const;
 	 bool GetLookVectorHitLocation(FVector LookDirection, FVector & HitLocation)const;
 
-	 UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float CrossHairXLocation = 0.5;
 
-	 UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float CrossHairYLocation = 0.33333;
 
-	 UPROPERTY(EditAnywhere)
-	 float LineTraceRange = 1000000.f; //unreal unit is in cm so it is now 10km
+	UPROPERTY(EditDefaultsOnly, Category  = Setup)
+	float LineTraceRange = 1000000.f; //unreal unit is in cm so it is now 10km
 };
